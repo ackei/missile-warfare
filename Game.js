@@ -29,13 +29,13 @@ BasicGame.Game.prototype = {
 
     create: function () {
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        // TODO: We need to create the stage and players here. No projectiles yet.
 
     },
 
     update: function () {
 
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        // TODO: For now, we just need to implement player movement. No projectiles yet.
 
     },
 
