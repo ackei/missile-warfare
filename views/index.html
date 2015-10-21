@@ -4,10 +4,11 @@
 	<meta charset="UTF-8" />
 	<title>Missile Warfare</title>
 	<script src="phaser.min.js"></script>
-	<script src="Boot.js"></script>
-	<script src="Preloader.js"></script>
-	<script src="MainMenu.js"></script>
-	<script src="Game.js"></script>
+	<script src="socket.io/socket.io.js"></script>
+	<script src="game/Boot.js"></script>
+	<script src="game/Preloader.js"></script>
+	<script src="game/MainMenu.js"></script>
+	<script src="game/Game.js"></script>
 </head>
 <body>
 
@@ -16,6 +17,10 @@
 <script type="text/javascript">
 
 window.onload = function() {
+	
+	// socket is part of socket.io that allows connectivity to the server
+	// With no argument, io defaults to try to connect to the host that serves the page
+	var socket = io();
 
 	//	Create your Phaser game and inject it into the gameContainer div.
 	//	We did it in a window.onload event, but you can do it anywhere (requireJS load, anonymous function, jQuery dom ready, - whatever floats your boat)
