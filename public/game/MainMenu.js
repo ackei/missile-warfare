@@ -3,6 +3,8 @@ BasicGame.MainMenu = function (game) {
 		this.music = null;
 		this.playButton = null;
 	*/
+	this.background = null;
+	this.titleText = null;
 };
 
 BasicGame.MainMenu.prototype = {
@@ -19,6 +21,12 @@ BasicGame.MainMenu.prototype = {
 
 			this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
 		*/
+		this.background = this.add.sprite(0, 0, 'titlePage');
+		this.background.width = this.game.world.width;
+		this.background.height = this.game.world.height;
+
+		this.titleText = this.add.sprite(512, 200,'titleText');
+		this.titleText.anchor.setTo(0.5,0.5);
 	},
 
 	update: function () {
