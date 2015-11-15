@@ -5,6 +5,7 @@ BasicGame.MainMenu = function (game) {
 	*/
 	this.background = null;
 	this.titleText = null;
+	this.menuMusic = null;
 };
 
 BasicGame.MainMenu.prototype = {
@@ -45,14 +46,19 @@ BasicGame.MainMenu.prototype = {
 
 
 		this.titleArrow = this.add.sprite(250, 360, 'titleArrow');
-
 		this.physics.arcade.enable(this.titleArrow);
+
+		this.menuSwitchSound = this.add.audio('titleSoundHover');
+		this.menuSelectSound = this.add.audio('titleSoundSelect');
+		this.menuMusic = this.add.audio('titleMusic');
+		this.menuMusic.play();
 
 		this.cursor = this.input.keyboard.createCursorKeys();
 		this.cursor.down.onDown.add(this.moveDown, this);
 		this.cursor.up.onDown.add(this.moveUp, this);
 		this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 		this.select = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		this.select.onDown.add(this.selectButton,this);
 		this.menuState = 0;
 	},
 
@@ -110,10 +116,13 @@ BasicGame.MainMenu.prototype = {
 	},
 
 	selectButton: function () {
-		//TODO implement multiple functions to handle the buttons.
+		//TODO: implement multiple functions to handle the buttons.
+		//Right now it just plays a neat sound.
+		this.menuSelectSound.play();
 	},
 
 	moveDown: function () {
+		this.menuSwitchSound.play();
 		switch(this.menuState) {
 			case 0:
 				this.titleArrow.y += 65;
@@ -128,13 +137,18 @@ BasicGame.MainMenu.prototype = {
 				this.menuState = 3;
 				break;
 			case 3:
+				this.titleArrow.y -= 195;
+				this.menuState = 0;
 				break;
 		}
 	},
 
 	moveUp: function () {
+		this.menuSwitchSound.play();
 		switch(this.menuState) {
 			case 0:
+				this.titleArrow.y += 195;
+				this.menuState = 3;
 				break;
 			case 1:
 				this.titleArrow.y -= 65;
