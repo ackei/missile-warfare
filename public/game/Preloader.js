@@ -32,6 +32,17 @@ BasicGame.Preloader.prototype = {
 		*/
 		this.load.image('titlePage', 'assets/mainMenuBackground.png');
 		this.load.image('titleText','assets/mainMenuTitle.png');
+		this.load.spritesheet('titleArrow','assets/menuArrows.png',98,84);
+		this.load.spritesheet('titleButtonStart','assets/menuButtonStart.png',326,65);
+		this.load.spritesheet('titleButtonOptions','assets/menuButtonOptions.png',326,65);
+		this.load.spritesheet('titleButtonHowToPlay','assets/menuButtonHowToPlay.png',326,65);
+		this.load.spritesheet('titleButtonQuit','assets/menuButtonQuit.png',326,65);
+		
+		// The following three audio samples were taking from the phaser examples assets folder.
+		// It can be replaced with original music later.
+		this.load.audio('titleSoundHover',['assets/numkey.wav']);
+		this.load.audio('titleSoundSelect',['assets/menu_select.mp3']);
+		this.load.audio('titleMusic', ['assets/Totta-HeroQuest-Pophousedub-remix.mp3']);
 
 	},
 
@@ -39,7 +50,7 @@ BasicGame.Preloader.prototype = {
 
 		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
 		this.preloadBar.cropEnabled = false;
-		this.state.start('MainMenu');
+		//this.state.start('MainMenu');
 	},
 
 	update: function () {
@@ -52,13 +63,13 @@ BasicGame.Preloader.prototype = {
 		
 		//	If you don't have any music in your game then put the game.state.start line into the create function and delete
 		//	the update function completely.
-		/*
+		
 			if (this.cache.isSoundDecoded('titleMusic') && this.ready == false)
 			{
 				this.ready = true;
 				this.state.start('MainMenu');
 			}
-		*/
+		
 
 	}
 
