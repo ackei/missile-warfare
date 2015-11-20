@@ -34,7 +34,9 @@ io.on('connection',function(socket){
 	console.log("A user connected");
 	
 	//TODO: Handling client events will largely be implemented here
-
+	socket.on('sendPosition',function(pos){
+		socket.broadcast.emit('updateEnemy',pos);
+	})
 	socket.on('disconnect',function(){
 		console.log("A user disconnected");
 	});

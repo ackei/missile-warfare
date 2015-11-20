@@ -105,10 +105,10 @@ BasicGame.MainMenu.prototype = {
 		}
 	},
 
-	startGame: function (pointer) {
+	startGame: function () {
 
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-		this.music.stop();
+		this.menuMusic.stop();
 
 		//	And start the actual game
 		this.state.start('Game');
@@ -119,6 +119,10 @@ BasicGame.MainMenu.prototype = {
 		//TODO: implement multiple functions to handle the buttons.
 		//Right now it just plays a neat sound.
 		this.menuSelectSound.play();
+		switch(this.menuState){
+			case 0:
+				this.startGame();
+		}
 	},
 
 	moveDown: function () {

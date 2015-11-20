@@ -32,6 +32,7 @@ BasicGame.Preloader.prototype = {
 		*/
 		this.load.image('titlePage', 'assets/mainMenuBackground.png');
 		this.load.image('titleText','assets/mainMenuTitle.png');
+		this.load.image('triangle','assets/triangle.png');
 		this.load.spritesheet('titleArrow','assets/menuArrows.png',98,84);
 		this.load.spritesheet('titleButtonStart','assets/menuButtonStart.png',326,65);
 		this.load.spritesheet('titleButtonOptions','assets/menuButtonOptions.png',326,65);
