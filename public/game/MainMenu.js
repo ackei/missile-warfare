@@ -27,18 +27,24 @@ BasicGame.MainMenu.prototype = {
 
 		this.titleText = this.add.sprite(512, 200,'titleText');
 		this.titleText.anchor.setTo(0.5,0.5);
+
+		this.space = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	},
 
 	update: function () {
 
 		//	TODO: Do some fancier main menu effects here.
+		if (this.space.isDown) {
+			this.startGame();
+		}
+
 
 	},
 
-	startGame: function (pointer) {
+	startGame: function () {
 
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
-		this.music.stop();
+		//this.music.stop();
 
 		//	And start the actual game
 		this.state.start('Game');

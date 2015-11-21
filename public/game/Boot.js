@@ -1,5 +1,9 @@
 var BasicGame = {};
 
+// socket is part of socket.io that allows connectivity to the server
+// With no argument, io defaults to try to connect to the host that serves the page
+socket = io();
+
 BasicGame.Boot = function (game) {
 
 };

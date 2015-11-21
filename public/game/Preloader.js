@@ -30,8 +30,10 @@ BasicGame.Preloader.prototype = {
 			this.load.audio('titleMusic', ['audio/main_menu.mp3']);
 			this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
 		*/
+		this.load.image('playersprite', 'assets/player.png');
 		this.load.image('titlePage', 'assets/mainMenuBackground.png');
 		this.load.image('titleText','assets/mainMenuTitle.png');
+
 
 	},
 

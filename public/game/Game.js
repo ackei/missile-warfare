@@ -25,16 +25,69 @@ BasicGame.Game = function (game) {
 
 };
 
+var x = 512;
+var y = 384;
+var bool = false;
+
+socket.on('receivePose', function(pos) {
+    bool = true;
+    x = pos.xpos;
+    y = pos.ypos;
+    socket.emit('sendPose', {xpos: BasicGame.Game.myself.x , ypos: BasicGame.Game.myself.y }); 
+});
+
+
 BasicGame.Game.prototype = {
 
     create: function () {
 
+        socket.emit('enterGame');
+
+        this.physics.startSystem(Phaser.Physics.ARCADE);
         // TODO: We need to create the stage and players here. No projectiles yet.
+        this.myself = this.game.add.sprite(512, 384,'playersprite');
+        this.myself.anchor.setTo(0.5,0.5);
+        this.myself.scale.setTo(0.2, 0.2);
+
+        this.enemy = this.game.add.sprite(512, 384, 'playersprite');
+        this.enemy.anchor.setTo(0.5,0.5);
+        this.enemy.scale.setTo(0.2, 0.2);
+        this.enemy.visible = false;
+
+        this.physics.arcade.enable(this.myself);
+
+        this.cursors = this.input.keyboard.createCursorKeys();
+        socket.emit('sendPose', {xpos: this.myself.x, ypos: this.myself.y});
+
+        this.MYSPEED = 250;
 
     },
 
     update: function () {
 
+        this.myself.angle += 1;
+
+        if (this.cursors.left.isDown) {
+            this.myself.body.velocity.x = -this.MYSPEED;
+        }
+        else if (this.cursors.right.isDown) {
+            this.myself.body.velocity.x = this.MYSPEED;
+        }
+        else if (this.cursors.up.isDown) {
+            this.myself.body.velocity.y = -this.MYSPEED; 
+        }
+        else if (this.cursors.down.isDown) {
+            this.myself.body.velocity.y = this.MYSPEED;
+        }
+        else {
+        this.myself.body.velocity.x = this.myself.body.velocity.y = 0;
+        }
+
+        if (bool) {
+            this.enemy.visible = true;
+            this.enemy.x = x;
+            this.enemy.y = y;
+        }
         // TODO: For now, we just need to implement player movement. No projectiles yet.
 
     },
