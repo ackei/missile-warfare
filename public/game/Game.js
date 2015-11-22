@@ -25,17 +25,8 @@ BasicGame.Game = function (game) {
 
 };
 
-var x = 512;
-var y = 384;
-var bool = false;
-
-socket.on('receivePose', function(pos) {
-    bool = true;
-    x = pos.xpos;
-    y = pos.ypos;
-    socket.emit('sendPose', {xpos: BasicGame.Game.myself.x , ypos: BasicGame.Game.myself.y }); 
-});
-
+var player;
+var enemy;
 
 BasicGame.Game.prototype = {
 
@@ -45,51 +36,47 @@ BasicGame.Game.prototype = {
 
         this.physics.startSystem(Phaser.Physics.ARCADE);
         // TODO: We need to create the stage and players here. No projectiles yet.
-        this.myself = this.game.add.sprite(512, 384,'playersprite');
-        this.myself.anchor.setTo(0.5,0.5);
-        this.myself.scale.setTo(0.2, 0.2);
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.game.world.setBounds(0,0,1024,768);
+        player = this.game.add.sprite(200,300,'triangle');
+        player.anchor.setTo(0.5,0.5);
+        player.scale.setTo(0.2,0.2);
+        this.game.physics.arcade.enable(player);
 
-        this.enemy = this.game.add.sprite(512, 384, 'playersprite');
-        this.enemy.anchor.setTo(0.5,0.5);
-        this.enemy.scale.setTo(0.2, 0.2);
-        this.enemy.visible = false;
+        enemy = this.game.add.sprite(800,300,'triangle');
+        enemy.anchor.setTo(0.5,0.5);
+        enemy.scale.setTo(0.2,0.2);
+        this.game.physics.arcade.enable(enemy);
+        enemy.visible = false;
 
-        this.physics.arcade.enable(this.myself);
-
-        this.cursors = this.input.keyboard.createCursorKeys();
-        socket.emit('sendPose', {xpos: this.myself.x, ypos: this.myself.y});
-
-        this.MYSPEED = 250;
+        this.cursors = this.game.input.keyboard.createCursorKeys();
+        player.body.collideWorldBounds = true;
+        this.PLAYER_SPEED = 5;
+        socket.on('updateEnemy',function(pos){
+            enemy.visible = true;
+            enemy.x = pos.x;
+            enemy.y = pos.y;
+        });
 
     },
 
     update: function () {
 
-        this.myself.angle += 1;
 
-        if (this.cursors.left.isDown) {
-            this.myself.body.velocity.x = -this.MYSPEED;
-        }
-        else if (this.cursors.right.isDown) {
-            this.myself.body.velocity.x = this.MYSPEED;
-        }
-        else if (this.cursors.up.isDown) {
-            this.myself.body.velocity.y = -this.MYSPEED; 
-        }
-        else if (this.cursors.down.isDown) {
-            this.myself.body.velocity.y = this.MYSPEED;
-        }
-        else {
-        this.myself.body.velocity.x = this.myself.body.velocity.y = 0;
-        }
-
-        if (bool) {
-            this.enemy.visible = true;
-            this.enemy.x = x;
-            this.enemy.y = y;
-        }
         // TODO: For now, we just need to implement player movement. No projectiles yet.
-
+        if (this.cursors.left.isDown){
+            player.x -= this.PLAYER_SPEED;
+        }
+        if (this.cursors.right.isDown){
+            player.x += this.PLAYER_SPEED;
+        }
+        if (this.cursors.up.isDown){
+            player.y -= this.PLAYER_SPEED;
+        }
+        if (this.cursors.down.isDown){
+            player.y += this.PLAYER_SPEED;
+        }
+        socket.emit('sendPosition',{x: player.x, y: player.y});
     },
 
     quitGame: function (pointer) {

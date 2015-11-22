@@ -34,12 +34,8 @@ io.on('connection',function(socket){
 	console.log("A user connected");
 	
 	//TODO: Handling client events will largely be implemented here
-	socket.on('enterGame',function() {
-		console.log("User " + socket.id + " connected.");
-	});
-
-	socket.on('sendPose', function(pos) {
-		socket.broadcast.emit('receivePose', pos);
+	socket.on('sendPosition',function(pos){
+		socket.broadcast.emit('updateEnemy',pos);
 	});
 
 	socket.on('disconnect',function(){
