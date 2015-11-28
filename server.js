@@ -28,11 +28,22 @@ server.listen(app.get('port'), app.get('ipaddr'), function(){
 	console.log('Express server listening on IP ' + app.get('ipaddr') + ' and port ' + app.get('port'));
 });
 
+var pos = []
+pos[0] =  { x: 200, y: 400 }
+pos[1] = { x: 800, y: 300} 
+
+
+var count = 0;
+
 // VERY IMPORTANT FUNCTION BELOW
 // Function to handle client socket events
 io.on('connection',function(socket){
 	console.log("A user connected");
 	
+	socket.on('enterGame', function() {
+		socket.emit('initialPosition', pos[count++]);
+	});
+
 	//TODO: Handling client events will largely be implemented here
 	socket.on('sendPosition',function(pos){
 		socket.broadcast.emit('updateEnemy',pos);
