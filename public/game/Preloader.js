@@ -30,6 +30,7 @@ BasicGame.Preloader.prototype = {
 			this.load.audio('titleMusic', ['audio/main_menu.mp3']);
 			this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
 		*/
+		this.load.image('playersprite', 'assets/player.png');
 		this.load.image('titlePage', 'assets/mainMenuBackground.png');
 		this.load.image('titleText','assets/mainMenuTitle.png');
 		this.load.image('red','assets/redTriangle.png');
@@ -45,6 +46,7 @@ BasicGame.Preloader.prototype = {
 		this.load.audio('titleSoundHover',['assets/numkey.wav']);
 		this.load.audio('titleSoundSelect',['assets/menu_select.mp3']);
 		this.load.audio('titleMusic', ['assets/Totta-HeroQuest-Pophousedub-remix.mp3']);
+
 
 	},
 

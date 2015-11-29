@@ -32,8 +32,7 @@ var enemy;
 BasicGame.Game.prototype = {
 
     create: function () {
-
-        socket.emit('createPlayerReq');
+        /*socket.emit('createPlayerReq');
         console.log("Sent createPlayerReq");
 
         socket.on('createPlayerResp',function(num){
@@ -60,7 +59,30 @@ BasicGame.Game.prototype = {
         });
 
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.game.world.setBounds(0,0,1024,768);*/
+        socket.emit('enterGame');
+
+        this.physics.startSystem(Phaser.Physics.ARCADE);
+        // TODO: We need to create the stage and players here. No projectiles yet.
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.world.setBounds(0,0,1024,768);
+        player = this.game.add.sprite(200, 400, 'triangle');
+        
+        socket.on('initialPosition', function(pos) {
+            player.x = pos.x;
+            player.y = pos.y;
+        });
+
+        player.anchor.setTo(0.5,0.5);
+        player.scale.setTo(0.2,0.2);
+
+        this.game.physics.arcade.enable(player);
+
+        enemy = this.game.add.sprite(800,300,'triangle');
+        enemy.anchor.setTo(0.5,0.5);
+        enemy.scale.setTo(0.2,0.2);
+        this.game.physics.arcade.enable(enemy);
+        enemy.visible = false;
 
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.PLAYER_SPEED = 5;
@@ -69,9 +91,11 @@ BasicGame.Game.prototype = {
             enemy.x = pos.x;
             enemy.y = pos.y;
         });
+
     },
 
     update: function () {
+
 
         // TODO: For now, we just need to implement player movement. No projectiles yet.
         if (playerCreated){
@@ -92,6 +116,10 @@ BasicGame.Game.prototype = {
                 console.log("Collision detected!");
             },null,this);
         }
+
+        socket.emit('sendPosition',{x: player.x, y: player.y});
+
+        this.game.physics.arcade.collide(enemy, player);
     },
 
     quitGame: function (pointer) {
