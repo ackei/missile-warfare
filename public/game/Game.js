@@ -32,12 +32,22 @@ BasicGame.Game.prototype = {
 
     create: function () {
 
+        socket.emit('enterGame');
+
+        this.physics.startSystem(Phaser.Physics.ARCADE);
         // TODO: We need to create the stage and players here. No projectiles yet.
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.world.setBounds(0,0,1024,768);
-        player = this.game.add.sprite(200,300,'triangle');
+        player = this.game.add.sprite(200, 400, 'triangle');
+        
+        socket.on('initialPosition', function(pos) {
+            player.x = pos.x;
+            player.y = pos.y;
+        });
+
         player.anchor.setTo(0.5,0.5);
         player.scale.setTo(0.2,0.2);
+
         this.game.physics.arcade.enable(player);
 
         enemy = this.game.add.sprite(800,300,'triangle');
@@ -54,9 +64,11 @@ BasicGame.Game.prototype = {
             enemy.x = pos.x;
             enemy.y = pos.y;
         });
+
     },
 
     update: function () {
+
 
         // TODO: For now, we just need to implement player movement. No projectiles yet.
         if (this.cursors.left.isDown){
@@ -72,6 +84,8 @@ BasicGame.Game.prototype = {
             player.y += this.PLAYER_SPEED;
         }
         socket.emit('sendPosition',{x: player.x, y: player.y});
+
+        this.game.physics.arcade.collide(enemy, player);
     },
 
     quitGame: function (pointer) {

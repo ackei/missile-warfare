@@ -32,7 +32,6 @@ BasicGame.MainMenu.prototype = {
 		this.titleText = this.add.sprite(512, 200,'titleText');
 		this.titleText.anchor.setTo(0.5,0.5);
 
-
 		// ISSUE: For some reason, the buttons do not work properly when initialized.
 		this.titleStart = this.game.add.sprite(512, 400, 'titleButtonStart');
 		this.titleOptions = this.game.add.sprite(512, 465, 'titleButtonOptions');
@@ -60,6 +59,7 @@ BasicGame.MainMenu.prototype = {
 		this.select = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		this.select.onDown.add(this.selectButton,this);
 		this.menuState = 0;
+
 	},
 
 	update: function () {
@@ -108,6 +108,7 @@ BasicGame.MainMenu.prototype = {
 	startGame: function () {
 
 		//	Ok, the Play Button has been clicked or touched, so let's stop the music (otherwise it'll carry on playing)
+
 		this.menuMusic.stop();
 
 		//	And start the actual game
