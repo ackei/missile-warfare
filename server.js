@@ -28,12 +28,19 @@ server.listen(app.get('port'), app.get('ipaddr'), function(){
 	console.log('Express server listening on IP ' + app.get('ipaddr') + ' and port ' + app.get('port'));
 });
 
+//Num players in room
+var num = 0;
+
 // VERY IMPORTANT FUNCTION BELOW
 // Function to handle client socket events
 io.on('connection',function(socket){
 	console.log("A user connected");
 	
 	//TODO: Handling client events will largely be implemented here
+	socket.on('createPlayerReq',function(){
+		console.log("Received createPlayerReq");
+		io.to(socket.id).emit('createPlayerResp',++num);
+	});
 	socket.on('sendPosition',function(pos){
 		socket.broadcast.emit('updateEnemy',pos);
 	})
