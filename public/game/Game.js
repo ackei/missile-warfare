@@ -32,41 +32,11 @@ var enemy;
 BasicGame.Game.prototype = {
 
     create: function () {
-        /*socket.emit('createPlayerReq');
-        console.log("Sent createPlayerReq");
-
-        socket.on('createPlayerResp',function(num){
-            console.log("Received createPlayerResp")
-            if (num % 2 == 1){
-                player = game.add.sprite(200,300,'red');
-                enemy = game.add.sprite(800,300,'blue');
-            }
-            else{
-                enemy = game.add.sprite(200,300,'red');
-                player = game.add.sprite(800,300,'blue');
-            }
-            player.anchor.setTo(0.5,0.5);
-            player.scale.setTo(0.1,0.1);
-            game.physics.arcade.enable(player);
-            player.body.collideWorldBounds = true;
-
-            enemy.anchor.setTo(0.5,0.5);
-            enemy.scale.setTo(0.1,0.1);
-            game.physics.arcade.enable(enemy);
-            enemy.visible = false;
-            enemy.body.collideWorldBounds = true;
-            playerCreated = true;
-        });
-
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.game.world.setBounds(0,0,1024,768);*/
         socket.emit('enterGame');
-
-        this.physics.startSystem(Phaser.Physics.ARCADE);
-        // TODO: We need to create the stage and players here. No projectiles yet.
+        
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.world.setBounds(0,0,1024,768);
-        player = this.game.add.sprite(200, 400, 'triangle');
+        player = this.game.add.sprite(200, 400, 'red');
         
         socket.on('initialPosition', function(pos) {
             player.x = pos.x;
@@ -78,7 +48,7 @@ BasicGame.Game.prototype = {
 
         this.game.physics.arcade.enable(player);
 
-        enemy = this.game.add.sprite(800,300,'triangle');
+        enemy = this.game.add.sprite(800,300,'blue');
         enemy.anchor.setTo(0.5,0.5);
         enemy.scale.setTo(0.2,0.2);
         this.game.physics.arcade.enable(enemy);
@@ -98,24 +68,22 @@ BasicGame.Game.prototype = {
 
 
         // TODO: For now, we just need to implement player movement. No projectiles yet.
-        if (playerCreated){
-            if (this.cursors.left.isDown){
-                player.x -= this.PLAYER_SPEED;
-            }
-            if (this.cursors.right.isDown){
-                player.x += this.PLAYER_SPEED;
-            }
-            if (this.cursors.up.isDown){
-                player.y -= this.PLAYER_SPEED;
-            }
-            if (this.cursors.down.isDown){
-                player.y += this.PLAYER_SPEED;
-            }
-                socket.emit('sendPosition',{x: player.x, y: player.y});
-            this.game.physics.arcade.overlap(player,enemy,function(){
-                console.log("Collision detected!");
-            },null,this);
+        if (this.cursors.left.isDown){
+            player.x -= this.PLAYER_SPEED;
         }
+        if (this.cursors.right.isDown){
+            player.x += this.PLAYER_SPEED;
+        }
+        if (this.cursors.up.isDown){
+            player.y -= this.PLAYER_SPEED;
+        }
+        if (this.cursors.down.isDown){
+            player.y += this.PLAYER_SPEED;
+        }
+            socket.emit('sendPosition',{x: player.x, y: player.y});
+        this.game.physics.arcade.overlap(player,enemy,function(){
+            console.log("Collision detected!");
+        },null,this);
 
         socket.emit('sendPosition',{x: player.x, y: player.y});
 
