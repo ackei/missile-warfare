@@ -1,51 +1,44 @@
 
-BasicGame.Preloader = function (game) {
-
-	this.background = null;
-	this.preloadBar = null;
-
-	this.ready = false;
-
-};
-
-BasicGame.Preloader.prototype = {
+var PreloaderState = {
 
 	preload: function () {
 
 		//	These are the assets we loaded in Boot.js
 		//	A nice sparkly background and a loading progress bar
-		this.background = this.add.sprite(0, 0, 'preloaderBackground');
-		this.preloadBar = this.add.sprite(300, 400, 'preloaderBar');
+		var background = game.add.sprite(0, 0, 'preloaderBackground');
+		this.preloadBar = game.add.sprite(300, 400, 'preloaderBar');
+
+		this.ready = false;
 
 		//	This sets the preloadBar sprite as a loader sprite.
 		//	What that does is automatically crop the sprite from 0 to full-width
 		//	as the files below are loaded in.
-		this.load.setPreloadSprite(this.preloadBar);
+		game.load.setPreloadSprite(this.preloadBar);
 
 		//	TODO: Load the other assets we will be using. Below are examples of ways to load various kinds of assets.
 		
 		/* 	
-			this.load.image('titlepage', 'images/title.jpg');
-			this.load.atlas('playButton', 'images/play_button.png', 'images/play_button.json');
-			this.load.audio('titleMusic', ['audio/main_menu.mp3']);
-			this.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
+			game.load.image('titlepage', 'images/title.jpg');
+			game.load.atlas('playButton', 'images/play_button.png', 'images/play_button.json');
+			game.load.audio('titleMusic', ['audio/main_menu.mp3']);
+			game.load.bitmapFont('caslon', 'fonts/caslon.png', 'fonts/caslon.xml');
 		*/
-		//this.load.image('playersprite', 'assets/player.png');
-		this.load.image('titlePage', 'assets/mainMenuBackground.png');
-		this.load.image('titleText','assets/mainMenuTitle.png');
-		this.load.image('red','assets/redTriangle.png');
-		this.load.image('blue','assets/blueTriangle.png');
-		this.load.spritesheet('titleArrow','assets/menuArrows.png',98,84);
-		this.load.spritesheet('titleButtonStart','assets/menuButtonStart.png',326,65);
-		this.load.spritesheet('titleButtonOptions','assets/menuButtonOptions.png',326,65);
-		this.load.spritesheet('titleButtonHowToPlay','assets/menuButtonHowToPlay.png',326,65);
-		this.load.spritesheet('titleButtonQuit','assets/menuButtonQuit.png',326,65);
+		//game.load.image('playersprite', 'assets/player.png');
+		game.load.image('titlePage', 'assets/mainMenuBackground.png');
+		game.load.image('titleText','assets/mainMenuTitle.png');
+		game.load.image('red','assets/redTriangle.png');
+		game.load.image('blue','assets/blueTriangle.png');
+		game.load.spritesheet('titleArrow','assets/menuArrows.png',98,84);
+		game.load.spritesheet('titleButtonStart','assets/menuButtonStart.png',326,65);
+		game.load.spritesheet('titleButtonOptions','assets/menuButtonOptions.png',326,65);
+		game.load.spritesheet('titleButtonHowToPlay','assets/menuButtonHowToPlay.png',326,65);
+		game.load.spritesheet('titleButtonQuit','assets/menuButtonQuit.png',326,65);
 		
 		// The following three audio samples were taking from the phaser examples assets folder.
 		// It can be replaced with original music later.
-		this.load.audio('titleSoundHover',['assets/numkey.wav']);
-		this.load.audio('titleSoundSelect',['assets/menu_select.mp3']);
-		this.load.audio('titleMusic', ['assets/Totta-HeroQuest-Pophousedub-remix.mp3']);
+		game.load.audio('titleSoundHover',['assets/numkey.wav']);
+		game.load.audio('titleSoundSelect',['assets/menu_select.mp3']);
+		game.load.audio('titleMusic', ['assets/Totta-HeroQuest-Pophousedub-remix.mp3']);
 
 
 	},
@@ -54,12 +47,12 @@ BasicGame.Preloader.prototype = {
 
 		//	Once the load has finished we disable the crop because we're going to sit in the update loop for a short while as the music decodes
 		this.preloadBar.cropEnabled = false;
-		//this.state.start('MainMenu');
+		//game.state.start('MainMenu');
 	},
 
 	update: function () {
 
-		//	You don't actually need to do this, but I find it gives a much smoother game experience.
+		//	You don't actually need to do game, but I find it gives a much smoother game experience.
 		//	Basically it will wait for our audio file to be decoded before proceeding to the MainMenu.
 		//	You can jump right into the menu if you want and still play the music, but you'll have a few
 		//	seconds of delay while the mp3 decodes - so if you need your music to be in-sync with your menu
@@ -68,10 +61,10 @@ BasicGame.Preloader.prototype = {
 		//	If you don't have any music in your game then put the game.state.start line into the create function and delete
 		//	the update function completely.
 		
-			if (this.cache.isSoundDecoded('titleMusic') && this.ready == false)
+			if (game.cache.isSoundDecoded('titleMusic') && this.ready == false)
 			{
 				this.ready = true;
-				this.state.start('MainMenu');
+				game.state.start('MainMenu');
 			}
 		
 

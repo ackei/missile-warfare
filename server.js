@@ -29,8 +29,8 @@ server.listen(app.get('port'), app.get('ipaddr'), function(){
 });
 
 var pos = []
-pos[0] =  { x: 200, y: 400 }
-pos[1] = { x: 800, y: 300} 
+pos[0] =  { x: 200, y: 400 , num: 0}
+pos[1] = { x: 800, y: 300, num: 1} 
 
 var count = 0;
 
@@ -38,15 +38,11 @@ var count = 0;
 // Function to handle client socket events
 io.on('connection',function(socket){
 	console.log("A user connected");
-	
-	socket.on('enterGame', function() {
-		socket.emit('initialPosition', pos[count++]);
-	});
 
 	//TODO: Handling client events will largely be implemented here
 	socket.on('createPlayerReq',function(){
 		console.log("Received createPlayerReq");
-		io.to(socket.id).emit('createPlayerResp',++num);
+		io.to(socket.id).emit('createPlayerResp', pos[count++]);
 	});
 	socket.on('sendPosition',function(pos){
 		socket.broadcast.emit('updateEnemy',pos);
