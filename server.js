@@ -41,8 +41,13 @@ io.on('connection',function(socket){
 
 	//TODO: Handling client events will largely be implemented here
 	socket.on('createPlayerReq',function(){
-		console.log("Received createPlayerReq");
 		io.to(socket.id).emit('createPlayerResp', pos[count++]);
+	});
+	socket.on('createProjectile',function(posNum){
+		socket.broadcast.emit('updateProjectile',posNum);
+	});
+	socket.on('playerKilled',function(){
+		socket.broadcast.emit('updateDeadPlayers');
 	});
 	socket.on('sendPosition',function(pos){
 		socket.broadcast.emit('updateEnemy',pos);
@@ -50,5 +55,6 @@ io.on('connection',function(socket){
 
 	socket.on('disconnect',function(){
 		console.log("A user disconnected");
+		count--;
 	});
 });
