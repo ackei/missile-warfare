@@ -28,6 +28,7 @@ var PreloaderState = {
 		game.load.image('titleText','assets/mainMenuTitle.png');
 		game.load.image('red','assets/redTriangle.png');
 		game.load.image('blue','assets/blueTriangle.png');
+		game.load.image('line','assets/line.png');
 		game.load.spritesheet('titleArrow','assets/menuArrows.png',98,84);
 		game.load.spritesheet('titleButtonStart','assets/menuButtonStart.png',326,65);
 		game.load.spritesheet('titleButtonOptions','assets/menuButtonOptions.png',326,65);

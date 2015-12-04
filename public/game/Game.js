@@ -2,7 +2,7 @@ var posNum = -1;
 var player;
 var enemy;
 
-var PLAYER_SPEED = 5;
+var PLAYER_SPEED = 100;
 
 var GameState = {
 
@@ -42,6 +42,13 @@ var GameState = {
             }
         });
 
+        boundary = game.add.sprite(512,384,'line');
+        boundary.anchor.setTo(0.5,0.5);
+        boundary.width = 1024;
+        boundary.angle = 90;
+        game.physics.arcade.enable(boundary);
+        boundary.body.immovable = true;
+
         this.cursors = game.input.keyboard.createCursorKeys();
 
         socket.on('updateEnemy',function(pos){
@@ -57,22 +64,30 @@ var GameState = {
         if (posNum > -1){
             // TODO: For now, we just need to implement player movement. No projectiles yet.
             if (this.cursors.left.isDown){
-                player.x -= PLAYER_SPEED;
+                player.body.velocity.x = -PLAYER_SPEED;
             }
-            if (this.cursors.right.isDown){
-                player.x += PLAYER_SPEED;
+            else if (this.cursors.right.isDown){
+                player.body.velocity.x = PLAYER_SPEED;
             }
-            if (this.cursors.up.isDown){
-                player.y -= PLAYER_SPEED;
+            else if (this.cursors.up.isDown){
+                player.body.velocity.y = -PLAYER_SPEED;
             }
-            if (this.cursors.down.isDown){
-                player.y += PLAYER_SPEED;
+            else if (this.cursors.down.isDown){
+                player.body.velocity.y = PLAYER_SPEED;
             }
+            else {
+                player.body.velocity.x = 0;
+                player.body.velocity.y = 0;
+            }
+
             socket.emit('sendPosition',{x: player.x, y: player.y});
             game.physics.arcade.overlap(player,enemy,function(){
                 console.log("Collision detected!");
             },null,this);
+
             game.physics.arcade.collide(enemy, player);
+            game.physics.arcade.collide(enemy, boundary);
+            game.physics.arcade.collide(player, boundary);
         }
     },
 
