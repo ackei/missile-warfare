@@ -100,6 +100,7 @@ var GameState = {
         boundary.width = 1024;
         boundary.angle = 90;
         game.physics.arcade.enable(boundary);
+        boundary.body.syncBounds = true;
         boundary.body.immovable = true;
 
         this.cursors = game.input.keyboard.createCursorKeys();
@@ -169,6 +170,7 @@ var GameState = {
                 var proj = player_projectile_list.getFirstDead();
                 proj.reset(player.x, player.y);
                 proj.body.velocity.x = PROJ_SPEED;
+                proj.body.syncBounds = true;
                 this.gameTime = game.time.now;
             }
 
@@ -178,7 +180,6 @@ var GameState = {
                 console.log("Collision detected!");
             },null,this);
 
-            game.physics.arcade.collide(enemy, player);
             game.physics.arcade.collide(enemy, boundary);
             game.physics.arcade.collide(player, boundary);
         }
