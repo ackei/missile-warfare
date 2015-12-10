@@ -176,10 +176,8 @@ var GameState = {
 
             socket.emit('sendPosition',{x: player.x, y: player.y});
 
-            game.physics.arcade.overlap(player,enemy,function(){
-                console.log("Collision detected!");
-            },null,this);
-
+            game.physics.arcade.overlap(enemy_projectile_list,player,this.missileHit,null,this);
+            
             game.physics.arcade.collide(enemy, boundary);
             game.physics.arcade.collide(player, boundary);
         }
