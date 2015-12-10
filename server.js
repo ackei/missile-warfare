@@ -14,7 +14,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set("view options", { layout: false });
 app.set('port', 3000);  
-app.set('ipaddr', "127.0.0.1");
+app.set('ipaddr', "192.168.0.101" || "127.0.0.1");
 app.use(express.static(__dirname + '/public'));
 app.engine('html', ejs.renderFile);
 
@@ -55,6 +55,8 @@ io.on('connection',function(socket){
 
 	socket.on('disconnect',function(){
 		console.log("A user disconnected");
-		count--;
+		if (count > 0){
+			count--;
+		}
 	});
 });
