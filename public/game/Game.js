@@ -1,6 +1,7 @@
 var posNum = -1;
 var player;
 var enemy;
+var emitter;
 var player_projectile_list;
 var enemy_projectile_list;
 
@@ -99,6 +100,11 @@ var GameState = {
         
         this.gameTime = game.time.now;
 
+        emitter = game.add.emitter(0, 0, 15);
+        emitter.makeParticles('pixel');
+        emitter.setYSpeed(-150, 150);
+        emitter.setXSpeed(-150, 150);
+
         socket.on('updateEnemy',function(pos){
             enemy.visible = true;
             enemy.x = pos.x;
@@ -112,10 +118,11 @@ var GameState = {
         });
 
         socket.on('updateDeadPlayers',function(){
-            console.log("Got update dead players");
             enemy.visible = false;
-            enemy.body = null;
-            enemy.destroy();
+            enemy.kill();
+            emitter.x = enemy.x;
+            emitter.y = enemy.y;
+            emitter.start(true, 600, null, 15);
         });
     },
 
@@ -186,6 +193,11 @@ var GameState = {
         posNum = -1;
         player.kill();
         projectile.kill();
+
+        emitter.x = player.x;
+        emitter.y = player.y;
+        emitter.start(true, 600, null, 15);
+
         socket.emit('playerKilled');
     },
 
