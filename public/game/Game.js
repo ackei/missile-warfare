@@ -6,8 +6,10 @@ var player_projectile_list;
 var enemy_projectile_list;
 
 var PLAYER_SPEED = 700;
+
 var PROJ_DELAY = 300;
 var PROJ_SPEED = 600;
+
 
 var GameState = {
 
@@ -94,6 +96,14 @@ var GameState = {
             }
         });
 
+        boundary = game.add.sprite(512,384,'line');
+        boundary.anchor.setTo(0.5,0.5);
+        boundary.width = 1024;
+        boundary.angle = 90;
+        game.physics.arcade.enable(boundary);
+        boundary.body.syncBounds = true;
+        boundary.body.immovable = true;
+
         this.cursors = game.input.keyboard.createCursorKeys();
 
         this.spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);        
@@ -167,11 +177,16 @@ var GameState = {
                 var proj = player_projectile_list.getFirstDead();
                 proj.reset(player.x, player.y);
                 proj.body.velocity.x = PROJ_SPEED;
+                proj.body.syncBounds = true;
                 this.gameTime = game.time.now;
-                        
             }
+
             socket.emit('sendPosition',{x: player.x, y: player.y});
+
             game.physics.arcade.overlap(enemy_projectile_list,player,this.missileHit,null,this);
+            
+            game.physics.arcade.collide(enemy, boundary);
+            game.physics.arcade.collide(player, boundary);
         }
     },
 

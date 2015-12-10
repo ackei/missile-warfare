@@ -2,21 +2,15 @@ var MainMenuState = {
 
 	create: function () {
 
-		/* 	TODO: Create our main menu.
-			Below are example Phaser code for playing some music,and adding a title page and play button. THey are
-			just here for reference.
-			this.music = this.add.audio('titleMusic');
-			this.music.play();
-			this.add.sprite(0, 0, 'titlepage');
-			this.playButton = this.add.button(400, 600, 'playButton', this.startGame, this, 'buttonOver', 'buttonOut', 'buttonOver');
-		*/
-
+		// Physics for Main Menu
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 
+		// Background
 		this.background = this.add.sprite(0, 0, 'titlePage');
 		this.background.width = this.game.world.width;
 		this.background.height = this.game.world.height;
 
+		// Title
 		this.titleText = this.add.sprite(512, 200,'titleText');
 		this.titleText.anchor.setTo(0.5,0.5);
 
@@ -26,20 +20,23 @@ var MainMenuState = {
 		this.titleHowToPlay = this.game.add.sprite(512, 530, 'titleButtonHowToPlay');
 		this.titleQuit = this.game.add.sprite(512, 595, 'titleButtonQuit');
 
+		// Set Anchor of the buttons 
 		this.titleStart.anchor.setTo(0.5,0.5);
 		this.titleOptions.anchor.setTo(0.5,0.5);
 		this.titleHowToPlay.anchor.setTo(0.5,0.5);
 		this.titleQuit.anchor.setTo(0.5,0.5);
 
-
+		// Add Arrow
 		this.titleArrow = this.add.sprite(250, 360, 'titleArrow');
 		this.physics.arcade.enable(this.titleArrow);
 
+		// Music
 		this.menuSwitchSound = this.add.audio('titleSoundHover');
 		this.menuSelectSound = this.add.audio('titleSoundSelect');
 		this.menuMusic = this.add.audio('titleMusic');
 		this.menuMusic.play();
 
+		// Cursors
 		this.cursor = this.input.keyboard.createCursorKeys();
 		this.cursor.down.onDown.add(this.moveDown, this);
 		this.cursor.up.onDown.add(this.moveUp, this);
