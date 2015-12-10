@@ -112,7 +112,10 @@ var GameState = {
         });
 
         socket.on('updateDeadPlayers',function(){
-            enemy.kill();
+            console.log("Got update dead players");
+            enemy.visible = false;
+            enemy.body = null;
+            enemy.destroy();
         });
     },
 
@@ -166,7 +169,9 @@ var GameState = {
     },
 
     missileHit: function(player,projectile){
-        player.kill();
+        posNum = -1;
+        player.body = null;
+        player.destroy();
         projectile.kill();
         socket.emit('playerKilled');
     },
