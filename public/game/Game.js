@@ -4,8 +4,8 @@ var enemy;
 var player_projectile_list;
 var enemy_projectile_list;
 
+var PLAYER_SPEED = 700;
 
-var PLAYER_SPEED = 1000;
 var PROJ_DELAY = 300;
 var PROJ_SPEED = 600;
 
@@ -30,13 +30,13 @@ var GameState = {
 
                 player_projectile_list = game.add.group();
                 player_projectile_list.createMultiple(50, 'red');
-                game.physics.enable(player_projectile_list);
-                player_projectile_list.setAll("checkWorldBounds", true);
-                player_projectile_list.setAll("outOfBoundsKill", true);
                 player_projectile_list.setAll("anchor.x", 0.5);
                 player_projectile_list.setAll("anchor.y", 0.5);
                 player_projectile_list.setAll("scale.x", 0.1);
                 player_projectile_list.setAll("scale.y", 0.1);
+                game.physics.enable(player_projectile_list);
+                player_projectile_list.setAll("checkWorldBounds", true);
+                player_projectile_list.setAll("outOfBoundsKill", true);
 
                 enemy = game.add.sprite(800,300,'blue');
                 enemy.anchor.setTo(0.5,0.5);
@@ -46,13 +46,13 @@ var GameState = {
 
                 enemy_projectile_list = game.add.group();
                 enemy_projectile_list.createMultiple(50, 'blue');
-                game.physics.enable(enemy_projectile_list);
-                enemy_projectile_list.setAll("checkWorldBounds", true);
-                enemy_projectile_list.setAll("outOfBoundsKill", true);
                 enemy_projectile_list.setAll("anchor.x", 0.5);
                 enemy_projectile_list.setAll("anchor.y", 0.5);
                 enemy_projectile_list.setAll("scale.x", 0.1);
                 enemy_projectile_list.setAll("scale.y", 0.1);
+                game.physics.enable(enemy_projectile_list);
+                enemy_projectile_list.setAll("checkWorldBounds", true);
+                enemy_projectile_list.setAll("outOfBoundsKill", true);
 
                 posNum = 0;
             }
@@ -66,13 +66,13 @@ var GameState = {
 
                 player_projectile_list = game.add.group();
                 player_projectile_list.createMultiple(50, 'blue');
-                game.physics.enable(player_projectile_list);
-                player_projectile_list.setAll("checkWorldBounds", true);
-                player_projectile_list.setAll("outOfBoundsKill", true);
                 player_projectile_list.setAll("anchor.x", 0.5);
                 player_projectile_list.setAll("anchor.y", 0.5);
                 player_projectile_list.setAll("scale.x", 0.1);
                 player_projectile_list.setAll("scale.y", 0.1);
+                game.physics.enable(player_projectile_list);
+                player_projectile_list.setAll("checkWorldBounds", true);
+                player_projectile_list.setAll("outOfBoundsKill", true);
                 PROJ_SPEED = -PROJ_SPEED;
 
                 enemy = game.add.sprite(200,400,'red');
@@ -83,13 +83,13 @@ var GameState = {
 
                 enemy_projectile_list = game.add.group();
                 enemy_projectile_list.createMultiple(50, 'red');
-                game.physics.enable(enemy_projectile_list);
-                enemy_projectile_list.setAll("checkWorldBounds", true);
-                enemy_projectile_list.setAll("outOfBoundsKill", true);
                 enemy_projectile_list.setAll("anchor.x", 0.5);
                 enemy_projectile_list.setAll("anchor.y", 0.5);
                 enemy_projectile_list.setAll("scale.x", 0.1);
                 enemy_projectile_list.setAll("scale.y", 0.1);
+                game.physics.enable(enemy_projectile_list);
+                enemy_projectile_list.setAll("checkWorldBounds", true);
+                enemy_projectile_list.setAll("outOfBoundsKill", true);
 
                 posNum = 1;
             }
@@ -185,10 +185,23 @@ var GameState = {
         }
     },
 
+    /*render: function() {
+        if (posNum > -1){
+            game.debug.body(player);
+            player_projectile_list.forEachAlive(this.renderGroup, this);
+            enemy_projectile_list.forEachAlive(this.renderGroup, this);
+        }
+    },
+
+    renderGroup: function(member) {
+        if (posNum > -1){
+            game.debug.body(member);
+        }
+    },*/
+
     missileHit: function(player,projectile){
         posNum = -1;
-        player.body = null;
-        player.destroy();
+        player.kill();
         projectile.kill();
         socket.emit('playerKilled');
     },
