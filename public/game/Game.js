@@ -2,14 +2,27 @@ var posNum = -1;
 var player;
 var enemy;
 var emitter;
-var player_projectile_list;
-var enemy_projectile_list;
+var player_projectile_list_0;
+var player_projectile_list_1;
+var enemy_projectile_list_0;
+var enemy_projectile_list_1;
+
+/* Proj Type
+0 = small, fast triangles
+1 = big, slow triangles
+*/
+var PROJ_TYPE = 0;
 
 var PLAYER_SPEED = 700;
+var PLAYER_SCALE = 0.2;
 
-var PROJ_DELAY = 300;
-var PROJ_SPEED = 600;
+var PROJ_DELAY_0 = 300;
+var PROJ_SPEED_0 = 600;
+var PROJ_SCALE_0 = 0.1;
 
+var PROJ_DELAY_1 = 700;
+var PROJ_SPEED_1 = 200;
+var PROJ_SCALE_1 = 0.4;
 
 var GameState = {
 
@@ -24,73 +37,114 @@ var GameState = {
             if (pos.num == 0){
                 player = game.add.sprite(pos.x, pos.y, 'red');
                 player.anchor.setTo(0.5,0.5);
-                player.scale.setTo(0.2,0.2);
+                player.scale.setTo(PLAYER_SCALE,PLAYER_SCALE);
                 game.physics.arcade.enable(player);
                 player.checkWorldBounds = true;
                 player.body.collideWorldBounds = true;
 
-                player_projectile_list = game.add.group();
-                player_projectile_list.createMultiple(50, 'red');
-                player_projectile_list.setAll("anchor.x", 0.5);
-                player_projectile_list.setAll("anchor.y", 0.5);
-                player_projectile_list.setAll("scale.x", 0.1);
-                player_projectile_list.setAll("scale.y", 0.1);
-                game.physics.enable(player_projectile_list);
-                player_projectile_list.setAll("checkWorldBounds", true);
-                player_projectile_list.setAll("outOfBoundsKill", true);
+                player_projectile_list_0 = game.add.group();
+                player_projectile_list_0.createMultiple(50, 'red');
+                player_projectile_list_0.setAll("anchor.x", 0.5);
+                player_projectile_list_0.setAll("anchor.y", 0.5);
+                player_projectile_list_0.setAll("scale.x", PROJ_SCALE_0);
+                player_projectile_list_0.setAll("scale.y", PROJ_SCALE_0);
+                game.physics.enable(player_projectile_list_0);
+                player_projectile_list_0.setAll("checkWorldBounds", true);
+                player_projectile_list_0.setAll("outOfBoundsKill", true);
+
+                player_projectile_list_1 = game.add.group();
+                player_projectile_list_1.createMultiple(50, 'red');
+                player_projectile_list_1.setAll("anchor.x", 0.5);
+                player_projectile_list_1.setAll("anchor.y", 0.5);
+                player_projectile_list_1.setAll("scale.x", PROJ_SCALE_1);
+                player_projectile_list_1.setAll("scale.y", PROJ_SCALE_1);
+                game.physics.enable(player_projectile_list_1);
+                player_projectile_list_1.setAll("checkWorldBounds", true);
+                player_projectile_list_1.setAll("outOfBoundsKill", true);
 
                 enemy = game.add.sprite(800,300,'blue');
                 enemy.anchor.setTo(0.5,0.5);
-                enemy.scale.setTo(0.2,0.2);
+                enemy.scale.setTo(PLAYER_SCALE,PLAYER_SCALE);
                 game.physics.arcade.enable(enemy);
                 enemy.visible = false;
 
-                enemy_projectile_list = game.add.group();
-                enemy_projectile_list.createMultiple(50, 'blue');
-                enemy_projectile_list.setAll("anchor.x", 0.5);
-                enemy_projectile_list.setAll("anchor.y", 0.5);
-                enemy_projectile_list.setAll("scale.x", 0.1);
-                enemy_projectile_list.setAll("scale.y", 0.1);
-                game.physics.enable(enemy_projectile_list);
-                enemy_projectile_list.setAll("checkWorldBounds", true);
-                enemy_projectile_list.setAll("outOfBoundsKill", true);
+                enemy_projectile_list_0 = game.add.group();
+                enemy_projectile_list_0.createMultiple(50, 'blue');
+                enemy_projectile_list_0.setAll("anchor.x", 0.5);
+                enemy_projectile_list_0.setAll("anchor.y", 0.5);
+                enemy_projectile_list_0.setAll("scale.x", PROJ_SCALE_0);
+                enemy_projectile_list_0.setAll("scale.y", PROJ_SCALE_0);
+                game.physics.enable(enemy_projectile_list_0);
+                enemy_projectile_list_0.setAll("checkWorldBounds", true);
+                enemy_projectile_list_0.setAll("outOfBoundsKill", true);
+
+                enemy_projectile_list_1 = game.add.group();
+                enemy_projectile_list_1.createMultiple(50, 'blue');
+                enemy_projectile_list_1.setAll("anchor.x", 0.5);
+                enemy_projectile_list_1.setAll("anchor.y", 0.5);
+                enemy_projectile_list_1.setAll("scale.x", PROJ_SCALE_1);
+                enemy_projectile_list_1.setAll("scale.y", PROJ_SCALE_1);
+                game.physics.enable(enemy_projectile_list_1);
+                enemy_projectile_list_1.setAll("checkWorldBounds", true);
+                enemy_projectile_list_1.setAll("outOfBoundsKill", true);
 
                 posNum = 0;
             }
             else if (pos.num == 1){
                 player = game.add.sprite(pos.x, pos.y, 'blue');
                 player.anchor.setTo(0.5,0.5);
-                player.scale.setTo(0.2,0.2);
+                player.scale.setTo(PLAYER_SCALE,PLAYER_SCALE);
                 game.physics.arcade.enable(player);
                 player.checkWorldBounds = true;
                 player.body.collideWorldBounds = true;
 
-                player_projectile_list = game.add.group();
-                player_projectile_list.createMultiple(50, 'blue');
-                player_projectile_list.setAll("anchor.x", 0.5);
-                player_projectile_list.setAll("anchor.y", 0.5);
-                player_projectile_list.setAll("scale.x", 0.1);
-                player_projectile_list.setAll("scale.y", 0.1);
-                game.physics.enable(player_projectile_list);
-                player_projectile_list.setAll("checkWorldBounds", true);
-                player_projectile_list.setAll("outOfBoundsKill", true);
-                PROJ_SPEED = -PROJ_SPEED;
+                player_projectile_list_0 = game.add.group();
+                player_projectile_list_0.createMultiple(50, 'blue');
+                player_projectile_list_0.setAll("anchor.x", 0.5);
+                player_projectile_list_0.setAll("anchor.y", 0.5);
+                player_projectile_list_0.setAll("scale.x", PROJ_SCALE_0);
+                player_projectile_list_0.setAll("scale.y", PROJ_SCALE_0);
+                game.physics.enable(player_projectile_list_0);
+                player_projectile_list_0.setAll("checkWorldBounds", true);
+                player_projectile_list_0.setAll("outOfBoundsKill", true);
+                PROJ_SPEED_0 = -PROJ_SPEED_0;
+
+                player_projectile_list_1 = game.add.group();
+                player_projectile_list_1.createMultiple(50, 'blue');
+                player_projectile_list_1.setAll("anchor.x", 0.5);
+                player_projectile_list_1.setAll("anchor.y", 0.5);
+                player_projectile_list_1.setAll("scale.x", PROJ_SCALE_1);
+                player_projectile_list_1.setAll("scale.y", PROJ_SCALE_1);
+                game.physics.enable(player_projectile_list_1);
+                player_projectile_list_1.setAll("checkWorldBounds", true);
+                player_projectile_list_1.setAll("outOfBoundsKill", true);
+                PROJ_SPEED_1 = -PROJ_SPEED_1;
 
                 enemy = game.add.sprite(200,400,'red');
                 enemy.anchor.setTo(0.5,0.5);
-                enemy.scale.setTo(0.2,0.2);
+                enemy.scale.setTo(PLAYER_SCALE,PLAYER_SCALE);
                 game.physics.arcade.enable(enemy);
                 enemy.visible = false;
 
-                enemy_projectile_list = game.add.group();
-                enemy_projectile_list.createMultiple(50, 'red');
-                enemy_projectile_list.setAll("anchor.x", 0.5);
-                enemy_projectile_list.setAll("anchor.y", 0.5);
-                enemy_projectile_list.setAll("scale.x", 0.1);
-                enemy_projectile_list.setAll("scale.y", 0.1);
-                game.physics.enable(enemy_projectile_list);
-                enemy_projectile_list.setAll("checkWorldBounds", true);
-                enemy_projectile_list.setAll("outOfBoundsKill", true);
+                enemy_projectile_list_0 = game.add.group();
+                enemy_projectile_list_0.createMultiple(50, 'red');
+                enemy_projectile_list_0.setAll("anchor.x", 0.5);
+                enemy_projectile_list_0.setAll("anchor.y", 0.5);
+                enemy_projectile_list_0.setAll("scale.x", PROJ_SCALE_0);
+                enemy_projectile_list_0.setAll("scale.y", PROJ_SCALE_0);
+                game.physics.enable(enemy_projectile_list_0);
+                enemy_projectile_list_0.setAll("checkWorldBounds", true);
+                enemy_projectile_list_0.setAll("outOfBoundsKill", true);
+
+                enemy_projectile_list_1 = game.add.group();
+                enemy_projectile_list_1.createMultiple(50, 'red');
+                enemy_projectile_list_1.setAll("anchor.x", 0.5);
+                enemy_projectile_list_1.setAll("anchor.y", 0.5);
+                enemy_projectile_list_1.setAll("scale.x", PROJ_SCALE_1);
+                enemy_projectile_list_1.setAll("scale.y", PROJ_SCALE_1);
+                game.physics.enable(enemy_projectile_list_1);
+                enemy_projectile_list_1.setAll("checkWorldBounds", true);
+                enemy_projectile_list_1.setAll("outOfBoundsKill", true);
 
                 posNum = 1;
             }
@@ -106,7 +160,10 @@ var GameState = {
 
         this.cursors = game.input.keyboard.createCursorKeys();
 
-        this.spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);        
+        
+        this.spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.oneKey = game.input.keyboard.addKey(Phaser.Keyboard.Q);
+        this.twoKey = game.input.keyboard.addKey(Phaser.Keyboard.W);        
         
         this.gameTime = game.time.now;
 
@@ -121,10 +178,17 @@ var GameState = {
             enemy.y = pos.y;
         });
 
-        socket.on('updateProjectile',function(posNum){
-            var proj = enemy_projectile_list.getFirstDead();
-            proj.reset(enemy.x, enemy.y);
-            proj.body.velocity.x = -PROJ_SPEED;
+        socket.on('updateProjectile',function(data){
+            if (data.projType == 0){
+                var proj = enemy_projectile_list_0.getFirstDead();
+                proj.reset(enemy.x, enemy.y);
+                proj.body.velocity.x = -PROJ_SPEED_0;
+            }
+            else if (data.projType == 1){
+                var proj = enemy_projectile_list_1.getFirstDead();
+                proj.reset(enemy.x, enemy.y);
+                proj.body.velocity.x = -PROJ_SPEED_1;
+            }
         });
 
         socket.on('updateDeadPlayers',function(){
@@ -139,7 +203,6 @@ var GameState = {
     update: function () {
 
         if (posNum > -1){
-            // TODO: For now, we just need to implement player movement. No projectiles yet.
             if (this.cursors.left.isDown && this.cursors.up.isDown){
                 player.body.velocity.x = -PLAYER_SPEED/Math.sqrt(2);
                 player.body.velocity.y = -PLAYER_SPEED/Math.sqrt(2);
@@ -172,18 +235,37 @@ var GameState = {
                 player.body.velocity.x = 0;
                 player.body.velocity.y = 0;
             }
-            if (this.spaceBar.isDown && (game.time.now > this.gameTime + PROJ_DELAY)) {
-                socket.emit('createProjectile',posNum);
-                var proj = player_projectile_list.getFirstDead();
-                proj.reset(player.x, player.y);
-                proj.body.velocity.x = PROJ_SPEED;
-                proj.body.syncBounds = true;
-                this.gameTime = game.time.now;
+            if (this.spaceBar.isDown) {
+                if (PROJ_TYPE == 0 && (game.time.now > this.gameTime + PROJ_DELAY_0)){
+                    socket.emit('createProjectile',{pos : posNum, projType : PROJ_TYPE});
+                    var proj = player_projectile_list_0.getFirstDead();
+                    proj.reset(player.x, player.y);
+                    proj.body.velocity.x = PROJ_SPEED_0;
+                    proj.body.syncBounds = true;
+                    this.gameTime = game.time.now;
+                }
+                if (PROJ_TYPE == 1 && (game.time.now > this.gameTime + PROJ_DELAY_1)){
+                    socket.emit('createProjectile',{pos : posNum, projType : PROJ_TYPE});
+                    var proj = player_projectile_list_1.getFirstDead();
+                    proj.reset(player.x, player.y);
+                    proj.body.velocity.x = PROJ_SPEED_1;
+                    proj.body.syncBounds = true;
+                    this.gameTime = game.time.now;
+                }
+            }
+            if (this.oneKey.isDown){
+                PROJ_TYPE = 0;
+                console.log(PROJ_TYPE);
+            }
+            if (this.twoKey.isDown){
+                PROJ_TYPE = 1;
+                console.log(PROJ_TYPE);
             }
 
             socket.emit('sendPosition',{x: player.x, y: player.y});
 
-            game.physics.arcade.overlap(enemy_projectile_list,player,this.missileHit,null,this);
+            game.physics.arcade.overlap(enemy_projectile_list_0,player,this.missileHit,null,this);
+            game.physics.arcade.overlap(enemy_projectile_list_1,player,this.missileHit,null,this);
             
             game.physics.arcade.collide(enemy, boundary);
             game.physics.arcade.collide(player, boundary);
@@ -193,8 +275,8 @@ var GameState = {
     /*render: function() {
         if (posNum > -1){
             game.debug.body(player);
-            player_projectile_list.forEachAlive(this.renderGroup, this);
-            enemy_projectile_list.forEachAlive(this.renderGroup, this);
+            player_projectile_list_0.forEachAlive(this.renderGroup, this);
+            enemy_projectile_list_0.forEachAlive(this.renderGroup, this);
         }
     },
 

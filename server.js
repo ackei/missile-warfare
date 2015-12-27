@@ -14,7 +14,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set("view options", { layout: false });
 app.set('port', 3000);  
-app.set('ipaddr', "192.168.0.101" || "127.0.0.1");
+app.set('ipaddr', "127.0.0.1");
 app.use(express.static(__dirname + '/public'));
 app.engine('html', ejs.renderFile);
 
@@ -43,8 +43,8 @@ io.on('connection',function(socket){
 	socket.on('createPlayerReq',function(){
 		io.to(socket.id).emit('createPlayerResp', pos[count++]);
 	});
-	socket.on('createProjectile',function(posNum){
-		socket.broadcast.emit('updateProjectile',posNum);
+	socket.on('createProjectile',function(data){
+		socket.broadcast.emit('updateProjectile',data);
 	});
 	socket.on('playerKilled',function(){
 		socket.broadcast.emit('updateDeadPlayers');
